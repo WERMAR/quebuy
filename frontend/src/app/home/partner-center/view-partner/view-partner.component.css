@@ -1,0 +1,99 @@
+.edit-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  border: none;
+  background-color: #e7e7e7ad;
+  color: black;
+  -webkit-box-shadow: 3px 3px 7px #b4b4b4, -3px -3px 9px rgba(241, 241, 241, 0.54);
+  box-shadow: 3px 3px 7px #b4b4b4, -3px -3px 9px #F1F1F189;
+}
+
+.edit-button:active {
+  box-shadow: inset 3px 3px 7px #a3a3a3,
+  inset -3px -3px 7px #dcdcdc;
+}
+
+.edit-icon {
+  transform: scale(1.2);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.8px;
+}
+
+.edit-icon {
+  transform: scale(0.6);
+}
+
+.master-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.slave-container-1 {
+  width: 30%;
+  margin-right: 20px;
+}
+
+.slave-container-2 {
+  width: 30%;
+}
+
+.uploader {
+  width: auto;
+  max-width: 210px;
+}
+
+.uploader .mat-form-field {
+  margin: 40px 0;
+  width: 500px !important;
+}
+
+.uploader .mat-toolbar-single-row {
+  height: auto !important;
+  background: transparent;
+  padding: 0;
+}
+
+.uploader .mat-toolbar-single-row button {
+  width: 100%;
+  border-radius: 100px;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+}
+
+.uploader .mat-form-field {
+  width: 100%;
+}
+
+.uploadFile-input {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9;
+  opacity: 0;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+}
+
+.master-container mat-form-field {
+  font-size: 16px;
+  width: 200px;
+}
+
+.save-partner-btn {
+  position: absolute;
+  border-radius: 50px;
+  right: 5%;
+  bottom: 5%;
+}
+
+.file-exist:hover {
+  background-color: #dc0000;
+}
+
+.opening-hours-add-btn {
+  border-radius: 100px;
+  margin-top: 20px;
+  max-width: 210px;
+}

@@ -1,0 +1,11 @@
+.create-opening-hour-div-clock {
+  display: flex;
+  justify-content: space-between;
+  width: 180px;
+  align-items: center;
+}
+
+.vertical-list {
+  overflow: hidden;
+  display:inline-grid;
+}

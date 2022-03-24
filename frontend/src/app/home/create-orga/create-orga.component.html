@@ -1,0 +1,251 @@
+<button mat-icon-button class="back-button" (click)="onBack()" disableRipple>
+  <mat-icon class="back-icon">keyboard_arrow_left</mat-icon>
+</button>
+
+<mat-stepper linear #stepper style="background-color:#FFFFFF00">
+  <mat-step [stepControl]="basicInformationForm">
+    <form [formGroup]="basicInformationForm">
+      <ng-template matStepLabel>Basis Informationen</ng-template>
+      <mat-form-field>
+        <mat-label>Unternehmensname</mat-label>
+        <input matInput type="text" formControlName="organizationName" placeholder="z.B.: Mustermann-Tec">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>E-Mail Adresse</mat-label>
+        <input matInput formControlName="mail" placeholder="max.mustermann@test.de">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Telefonnummer</mat-label>
+        <input matInput formControlName="telephoneNumber" placeholder="z.B.: +49 123456789">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Straße</mat-label>
+        <input matInput formControlName="streetName" placeholder="z.B Max-Mustermann-Straße">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Postleitzahl</mat-label>
+        <input matInput formControlName="zipCode" type="number" placeholder="z.B.: 00000">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Stadt</mat-label>
+        <input matInput formControlName="village" placeholder="z.B.: Musterhausen">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Land</mat-label>
+        <input matInput formControlName="countryName" placeholder="z.B.: Germany" [matAutocomplete]="autoCountry">
+        <mat-autocomplete autoActiveFirstOption #autoCountry="matAutocomplete">
+          <mat-option *ngFor="let country of filteredCountries | async" [value]="country">{{country}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <button mat-raised-button color="primary"
+            class="stepforward-btn" matStepperNext>Fortfahren
+    </button>
+  </mat-step>
+  <mat-step [stepControl]="organizationInformationForm">
+    <form [formGroup]="organizationInformationForm">
+      <ng-template matStepLabel>Unternehmens-Informationen</ng-template>
+      <mat-form-field>
+        <mat-label>USt-ID</mat-label>
+        <input matInput formControlName="ustId" placeholder="z.B.: 079 / 123 / 12347">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Handelsregisternummer</mat-label>
+        <input matInput formControlName="commercialRegisterNumber" placeholder="z.B.: HRB 1234">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Branche</mat-label>
+        <input matInput formControlName="branch" placeholder="z.B Einzelhandel" [matAutocomplete]="autoBranch">
+        <mat-autocomplete autoActiveFirstOption #autoBranch="matAutocomplete">
+          <mat-option *ngFor="let branch of filteredBranches | async" [value]="branch">{{branch}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Rechtsform</mat-label>
+        <mat-select formControlName="legalForm">
+          <mat-option *ngFor="let legalForm of legalForms" [value]="legalForm">{{legalForm}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <div class="tradeLicence-uploader">
+        <div style="width:100%" *ngIf="organization.tradeLicence === undefined">
+          <mat-toolbar>
+            <button mat-flat-button color="primary" class="browse-file-btn">Gewerbeschein suchen
+              <input #uploadFile type="file" id="fileTradeLicenceRefBtn" (change)="onUploadTradeLicence($event)"
+                     accept="application/pdf" class="uploadFile-input"/></button>
+          </mat-toolbar>
+
+        </div>
+        <div class="btn-text-div" *ngIf="organization.tradeLicence !== undefined">
+          <div class="tradeLicence-file-info">
+            <h3>{{ organization?.tradeLicence?.name}}</h3>
+          </div>
+          <mat-icon class="tradeLicence-file-delete-icon" (click)="onRemoveTradeLicence()">clear</mat-icon>
+        </div>
+      </div>
+      <button mat-flat-button color="primary"
+              [disabled]="organization.openingHours !== undefined && organization.openingHours.length > 0"
+              class="opening-hours-add-btn" (click)="onOpenOpeningHoursDialog()">
+        {{ this.organization.openingHours !== undefined && this.organization.openingHours.length > 0 ? "Öffnungszeiten hinzugefügt" : "Öffnungszeiten erstellen"}}</button>
+      <br>
+    </form>
+    <div class="img-uploader-div" disabled="">
+      <mat-icon class="img-uploader-icon">upload</mat-icon>
+      <input class="img-uploader-input" type="image" #fileDropRef id="fileDropRef"
+             (fileDropped)="onDroppedFileHandler($event)" (change)="onFileBrowserHandler($event)" appDnd
+             accept="image/*" alt="input">
+      <h3 style="margin-top:25px; margin-bottom:0">Partner Logo hinzufügen</h3>
+      <h3 style="margin-bottom:10px">oder</h3>
+      <button mat-raised-button color="primary" class="img-browse-button">Datei hochladen
+        <input class="img-uploader-input-btn" type="file" #fileSelectRef id="fileDropRefBtn"
+               (change)="onFileBrowserHandler($event)" appDnd accept="image/*">
+      </button>
+      <div id="filesList" class="files-list">
+        <ul class="file-list-component">
+          <li class="single-file" *ngIf="organization.logo !== undefined">
+            <div class="btn-text-div">
+              <mat-icon class="file-uploaded-icon">check_circle</mat-icon>
+              <div class="file-info">
+                <h4>{{ organization.logo.name}}</h4>
+              </div>
+            </div>
+            <mat-icon class="file-delete-icon" (click)="onDeleteFile(fileSelectRef,fileDropRef )">clear
+            </mat-icon>
+            <br>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="back-btn-stepper" mat-raised-button color="primary" matStepperPrevious>Zurück</button>
+    <button mat-raised-button color="primary" (click)="onFinishPartnerInformation()"
+            class="stepforward-btn" matStepperNext>Fortfahren
+    </button>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Zusammenfassung Partner</ng-template>
+    <app-summary-orga [organization]="organization" [logoUrl]="logoUrl"></app-summary-orga>
+    <button class="back-btn-stepper" mat-raised-button color="primary" matStepperPrevious>Zurück</button>
+    <button *ngIf="organization.organizationName !== undefined" mat-raised-button color="primary"
+            class="create-partner-btn" (click)="onCreateOrganization(stepper)">Partner erstellen
+    </button>
+    <div class="spinner-div" *ngIf="creatingPartner">
+      <mat-spinner *ngIf="creatingPartner" class="spinner"></mat-spinner>
+      <h3 class="spinner-text">Bitte warten ... Partner wird erstellt</h3>
+    </div>
+  </mat-step>
+  <mat-step>
+    <form [formGroup]="advertForm">
+      <ng-template matStepLabel>Werbung erstellen</ng-template>
+      <div style="display:flex; justify-content: flex-start; max-width:600px;">
+        <div style="margin-right:100px">
+          <mat-form-field>
+            <mat-label>Startzeitpunkt</mat-label>
+            <input matInput type="text" formControlName="startTime" placeholder="z.B.: Mustermann-Tec"
+                   [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker [disabled]="false" #picker></mat-datepicker>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="min-width:200px">
+            <mat-label>Kurzbeschreibung</mat-label>
+            <textarea matInput formControlName="shortDescription" placeholder="Kurzbeschreibung"
+                      maxlength="100" style="min-height:70px;"></textarea>
+          </mat-form-field>
+          <br>
+          <mat-form-field style="min-width:200px">
+            <mat-label>Langbeschreibung</mat-label>
+            <textarea matInput formControlName="longDescription" placeholder="Werbetext" maxlength="512"
+                      style="min-height:100px;"></textarea>
+          </mat-form-field>
+        </div>
+        <div style="margin-right: 100px">
+          <mat-form-field>
+            <mat-label>Straße</mat-label>
+            <input matInput formControlName="streetName" placeholder="z.B Max-Mustermann-Straße">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Postleitzahl</mat-label>
+            <input matInput formControlName="zipCode" type="number" placeholder="z.B.: 00000">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Stadt</mat-label>
+            <input matInput formControlName="village" placeholder="z.B.: Musterhausen">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Land</mat-label>
+            <input matInput formControlName="countryName" placeholder="z.B.: Germany"
+                   [matAutocomplete]="advertAutoCountry">
+            <mat-autocomplete autoActiveFirstOption #advertAutoCountry="matAutocomplete">
+              <mat-option *ngFor="let country of advertFilteredCountries | async"
+                          [value]="country">{{country}}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div class="tradeLicence-uploader">
+            <div style="width:100%" *ngIf="advertFile === undefined">
+              <mat-toolbar>
+                <button mat-flat-button color="primary" class="browse-file-btn">Bild hochladen
+                  <input #uploadFile type="file" id="advertFileUploadBtn" (change)="onUploadAdvertFile($event)"
+                         accept="image/*" class="uploadFile-input"/></button>
+              </mat-toolbar>
+            </div>
+          </div>
+          <div class="btn-text-div" *ngIf="advertFile !== undefined">
+            <div class="tradeLicence-file-info">
+              <h3>{{ advertFile?.name}}</h3>
+            </div>
+            <mat-icon class="tradeLicence-file-delete-icon" (click)="onRemoveAdvertFile()">clear</mat-icon>
+          </div>
+        </div>
+        <div>
+          <mat-checkbox color="primary" (change)="onUpdateAdvertType('basic')" [checked]="basicSelected">Basic
+          </mat-checkbox>
+          <mat-checkbox color="primary" (change)="onUpdateAdvertType('advanced')" [checked]="advancedSelected">
+            Advanced
+          </mat-checkbox>
+          <mat-checkbox color="primary" (change)="onUpdateAdvertType('premium')" [checked]="premiumSelected">Premium
+          </mat-checkbox>
+        </div>
+      </div>
+    </form>
+    <div>
+      <button class="back-btn-stepper" mat-raised-button color="primary" matStepperPrevious>Zurück</button>
+      <button mat-raised-button color="primary"
+              class="stepforward-btn" matStepperNext>Fortfahren
+      </button>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>POIs setzen</ng-template>
+    <input #mapSearchField class="map-search-field" type="text"/>
+    <google-map height="500px"
+                width="100%"
+                [center]="center"
+                [options]="options" (mapClick)="onSelectPOI($event.latLng.toJSON())">
+      <map-marker *ngFor="let marker of markers; let indexOfElem = index" [position]="marker.position"
+                  [icon]="marker.icon"
+                  (mapClick)="onDeleteMarker(indexOfElem)"></map-marker>
+    </google-map>
+    <div>
+      <button class="back-btn-stepper" mat-raised-button color="primary" matStepperPrevious>Zurück</button>
+      <button mat-raised-button color="primary"
+              class="stepforward-btn" (click)="onCreateAdvert()">Abschließen
+      </button>
+    </div>
+    <div class="spinner-div" *ngIf="creatingPartner">
+      <mat-spinner *ngIf="creatingPartner" class="spinner"></mat-spinner>
+      <h3 class="spinner-text">Bitte warten ... Partner wird erstellt</h3>
+    </div>
+  </mat-step>
+</mat-stepper>

@@ -1,0 +1,46 @@
+<div class="master-container" *ngIf="organization.organizationName !== undefined">
+  <div class="slave-container-1">
+    <mat-list>
+      <mat-list-item class="partner-info-list-item">Anzeigename: {{organization.organizationName}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Mail: {{organization.mail}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Telefonnummer: {{organization.telephoneNumber}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Straßenname: {{organization.location.streetName}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">PLZ: {{organization.location.zipCode}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Stadt: {{organization.location.village}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Land: {{organization.location.countryName}}</mat-list-item>
+    </mat-list>
+  </div>
+  <div class="slave-container-2">
+    <div class="flex-slave-container">
+      <div class="details-container">
+        <mat-list class="partner-info-list">
+          <mat-list-item class="partner-info-list-item">UST-ID: {{organization.ustId}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">
+            Handelsregisternummer: {{organization.commercialRegisterNumber}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">
+            Gewerbeschein: {{organization.tradeLicence.name}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">Branche: {{organization.branchName}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">Rechtsform: {{organization.legalFormName}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">Öffnungszeiten: {{organization.openingHours.length}} hinzugefügt</mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </div>
+      <div class="img-container">
+        <h2 style="color:white;">Ihr hochgeladenes Logo:</h2>
+        <img [src]="logoUrl" alt="logo" style="max-width:500px;"/>
+      </div>
+    </div>
+  </div>
+</div>
+<h3 *ngIf="organization.organizationName === undefined" class="no-data-exist">keine Daten vorhanden</h3>

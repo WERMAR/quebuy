@@ -1,0 +1,72 @@
+<h2>Öffnungszeiten {{ this.inputData ? 'bearbeiten' : 'hinzufügen' }}</h2>
+<hr>
+<div *ngIf="!this.inputData">
+  <div class="create-opening-hour-div" *ngIf="createNewOpeningHours">
+    <div style="display:flex;justify-content: space-between">
+      <div>
+        <div class="create-opening-hour-div-clock">
+          <p>Beginn</p>
+          <ngx-mat-timepicker [(ngModel)]="startHours">
+          </ngx-mat-timepicker>
+        </div>
+        <div class="create-opening-hour-div-clock">
+          <p>Ende</p>
+          <ngx-mat-timepicker [(ngModel)]="endHours">
+          </ngx-mat-timepicker>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:row; width:auto">
+      <span style="display:flex;flex-direction: column;margin-top:1em">
+        <mat-checkbox class="example-margin" [(ngModel)]="week"
+                      color="primary" [indeterminate]="completeWeek()" (change)="setAll($event.checked, 'week')">Wochentags</mat-checkbox>
+        <mat-checkbox class="example-margin" [indeterminate]="completeWeekEnd()"
+                      color="primary" [(ngModel)]="weekEnd"
+                      (change)="setAll($event.checked, 'weekend')">Wochenende</mat-checkbox>
+        <mat-checkbox class="example-margin" [indeterminate]="completeWholeWeek()"
+                      color="primary" [(ngModel)]="wholeWeek"
+                      (change)="setAll($event.checked, 'all')">Ganze Woche</mat-checkbox>
+      </span>
+        <span>
+        <ul class="vertical-list">
+          <li *ngFor="let day of allDays" style="list-style-type:none;">
+            <mat-checkbox [(ngModel)]="day.activated" [color]="day.color"
+                          (ngModelChange)="updateAllComplete()">{{day.name}}</mat-checkbox>
+          </li>
+        </ul>
+      </span>
+      </div>
+    </div>
+    <button mat-raised-button (click)="onAddNewOpeningHours()"
+            style="border-radius: 100px; color:white;padding: 0; float: right;"
+            color="primary">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <button mat-raised-button style="border-radius:100px" (click)="onCreateNewOpeningHours()"
+          *ngIf="!this.inputData || (this.inputData && openingHoursData.length < 7)"
+          color="primary">Neue
+    Öffnungszeit
+    hinterlegen
+  </button>
+  <hr *ngIf="openingHoursData.length < 7 && openingHoursData.length > 0">
+  <h3 *ngIf="openingHoursData.length > 0">Hinzugefügte Öffnungszeiten</h3>
+  <div *ngIf="openingHoursData.length > 0">
+    <ul>
+      <li *ngFor="let openHours of openingHoursData">{{openHours.weekday}}</li>
+    </ul>
+  </div>
+  <button mat-raised-button style="border-radius:100px" (click)="onCloseDialog()"
+          *ngIf="openingHoursData.length <= 7 && openingHoursData.length > 0"
+          color="primary">Fertig
+  </button>
+</div>
+<div *ngIf="this.inputData">
+  <mat-selection-list color="primary" #selectionList>
+    <mat-list-option *ngFor="let openHourData of openingHoursData"
+                     [value]="openHourData">{{ openHourData.weekday }}</mat-list-option>
+  </mat-selection-list>
+  <hr>
+  <button mat-raised-button style="border-radius:100px" (click)="onEditSelection(selectionList.selectedOptions.selected)"
+          color="primary">Bearbeiten
+  </button>
+</div>

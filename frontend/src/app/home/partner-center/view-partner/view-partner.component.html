@@ -1,0 +1,161 @@
+<div style="display:flex;justify-content: space-between; width:100%; align-content: center">
+  <div>
+    <h2 style="margin-bottom:0">{{ selectedPartner.organizationName }}</h2>
+  </div>
+  <div>
+    <button mat-icon-button class="edit-button" disableRipple (click)="onHandleEditBtnClicked()">
+      <mat-icon class="edit-icon">{{editMode ? 'close' : 'edit'}}</mat-icon>
+    </button>
+  </div>
+</div>
+<hr>
+<div class="master-container">
+  <div class="slave-container-1">
+    <mat-list *ngIf="!editMode">
+      <mat-list-item class="partner-info-list-item">Anzeigename: {{selectedPartner.organizationName}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Mail: {{selectedPartner.mail}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Telefonnummer: {{selectedPartner.telephoneNumber}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Straßenname: {{selectedPartner.location.streetName}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">PLZ: {{selectedPartner.location.zipCode}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Stadt: {{selectedPartner.location.village}}</mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="partner-info-list-item">Land: {{selectedPartner.location.countryName}}</mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+    <form [formGroup]="partnerForm" *ngIf="editMode">
+      <mat-form-field>
+        <mat-label>Unternehmensname</mat-label>
+        <input matInput type="text" formControlName="organizationName" placeholder="z.B.: Mustermann-Tec">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>E-Mail Adresse</mat-label>
+        <input matInput formControlName="mail" placeholder="max.mustermann@test.de">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Telefonnummer</mat-label>
+        <input matInput formControlName="telephoneNumber" placeholder="z.B.: +49 123456789">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Straße</mat-label>
+        <input matInput formControlName="streetName" placeholder="z.B Max-Mustermann-Straße">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Postleitzahl</mat-label>
+        <input matInput formControlName="zipCode" type="number" placeholder="z.B.: 00000">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Stadt</mat-label>
+        <input matInput formControlName="village" placeholder="z.B.: Musterhausen">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <mat-label>Land</mat-label>
+        <input matInput formControlName="countryName" placeholder="z.B.: Germany" [matAutocomplete]="autoCountry">
+        <mat-autocomplete autoActiveFirstOption #autoCountry="matAutocomplete">
+          <mat-option *ngFor="let country of filteredCountries | async" [value]="country">{{country}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="slave-container-2">
+    <div class="flex-slave-container">
+      <div class="details-container">
+        <mat-list class="partner-info-list" *ngIf="!editMode">
+          <mat-list-item class="partner-info-list-item">UST-ID: {{selectedPartner.ustId}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">
+            Handelsregisternummer: {{selectedPartner.commercialRegisterNumber}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">
+            Gewerbeschein: {{selectedPartner.tradeLicenceFileName}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">
+            Gewerbeschein: {{selectedPartner.logoFileName}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">Branche: {{selectedPartner.branchName}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">Rechtsform: {{selectedPartner.legalFormName}}</mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item class="partner-info-list-item">Öffnungszeiten: {{selectedPartner.openingHours.length}}
+            hinzugefügt
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+        <form [formGroup]="partnerForm" *ngIf="editMode">
+          <mat-form-field>
+            <mat-label>USt-ID</mat-label>
+            <input matInput formControlName="ustId" placeholder="z.B.: 079 / 123 / 12347">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Handelsregisternummer</mat-label>
+            <input matInput formControlName="commercialRegisterNumber" placeholder="z.B.: HRB 1234">
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Branche</mat-label>
+            <input matInput formControlName="branch" placeholder="z.B Einzelhandel" [matAutocomplete]="autoBranch">
+            <mat-autocomplete autoActiveFirstOption #autoBranch="matAutocomplete">
+              <mat-option *ngFor="let branch of filteredBranches | async" [value]="branch">{{branch}}</mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <br>
+          <mat-form-field>
+            <mat-label>Rechtsform</mat-label>
+            <mat-select formControlName="legalForm">
+              <mat-option *ngFor="let legalForm of legalForms" [value]="legalForm">{{legalForm}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <div class="uploader">
+            <div style="width:100%">
+              <mat-toolbar>
+                <button mat-flat-button color="primary" class="{{tradeLicenceFile !== undefined ? 'file-exist':''}}"
+                        (click)="onClickHandle('trade')" (mouseenter)="onTLEnterBtn()"
+                        (mouseleave)="onTLLeaveBtn()">
+                  <mat-label
+                    *ngIf="!removeFileTL">{{tradeLicenceFile !== undefined ? 'Gewerbeschein hochgeladen' : 'Gewerbeschein suchen'}}</mat-label>
+                  <mat-icon *ngIf="removeFileTL">delete</mat-icon>
+                  <input *ngIf="!removeFileTL && tradeLicenceFile === undefined" #tradeLicenceUpload type="file"
+                         id="fileTradeLicenceRefBtn" (change)="onUploadTradeLicence($event)"
+                         accept="application/pdf" class="uploadFile-input"/></button>
+              </mat-toolbar>
+            </div>
+          </div>
+          <div class="uploader" style="margin-top:20px;">
+            <div style="width:100%">
+              <mat-toolbar>
+                <button mat-flat-button color="primary" class="{{logoFile !== undefined ? 'file-exist':''}}"
+                        (click)="onClickHandle('logo')" (mouseenter)="onLOGOEnterBtn()"
+                        (mouseleave)="onLOGOLeaveBtn()">
+                  <mat-label
+                    *ngIf="!removeFileLOGO">{{logoFile !== undefined ? 'Logo hochgeladen' : 'Logo suchen'}}</mat-label>
+                  <mat-icon *ngIf="removeFileLOGO">delete</mat-icon>
+                  <input *ngIf="!removeFileLOGO && logoFile === undefined" #logoFileUpload type="file"
+                         id="logoFileRefBtn" (change)="onUploadLogo($event)"
+                         accept="image/*" class="uploadFile-input"/></button>
+              </mat-toolbar>
+            </div>
+          </div>
+          <button mat-flat-button color="primary"
+                  class="opening-hours-add-btn" (click)="onOpenOpeningHoursDialog()">
+            {{ selectedPartner.openingHours !== undefined && selectedPartner.openingHours.length > 0 ? "Öffnungszeiten hinzugefügt" : "Öffnungszeiten erstellen"}}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<button mat-raised-button color="primary" *ngIf="editMode"
+        class="save-partner-btn" (click)="onUpdatePartner()">Abschließen
+</button>
+

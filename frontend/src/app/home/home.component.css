@@ -1,0 +1,72 @@
+.home-div {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+
+.create-new-btn-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.create-new-btn-text-orga {
+  transform: translate(-17%, 35%);
+  margin: auto 10px auto;
+  color: #D1D9E6;
+  font-size: 20px;
+}
+
+.create-new-btn-text-partner {
+  transform: translate(-17%, 35%);
+  margin: auto 10px auto;
+  color: #D1D9E6;
+  font-size: 20px;
+}
+
+.create-new-btn {
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  border: none;
+  background-color: #9a9a9a;
+  margin: auto;
+  color: #D1D9E6;
+  -webkit-box-shadow: 3px 3px 10px #636363, -3px -3px 11px #d3d3d3;
+  box-shadow: 3px 3px 10px #636363, -3px -3px 11px #d3d3d3;
+}
+
+.create-new-btn:active {
+  box-shadow: inset 3px 3px 7px #636363,
+  inset -3px -3px 7px #d1d1d1;
+}
+
+.create-new-icon {
+  transform: scale(2.5);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.8px;
+}
+
+.create-new-icon:active {
+  transform: scale(2.0);
+}
+
+.home {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+.base-div {
+  position: absolute;
+  width: 375px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -80%);
+}

@@ -1,0 +1,30 @@
+.master-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slave-container-1 {
+  width: 30%;
+}
+
+.slave-container-2 {
+  width: 100%;
+}
+
+.partner-info-list-item {
+  color: #1b1b1b;
+}
+
+.no-data-exist {
+  color: #1b1b1b;
+}
+
+.flex-slave-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.details-container {
+  width:40%;
+}

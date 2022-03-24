@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Datei hochladen?</h1>
+<div mat-dialog-content>
+  <p>Wollen Sie die Datei sofort hochladen und entsprechend ersetzen?</p>
+</div>
+<div mat-dialog-actions class="buttons" style="justify-content: space-between">
+  <button mat-button (click)="onDenied()">Nein</button>
+  <button mat-button (click)="onConfirm()" cdkFocusInitial>Ja</button>
+</div>
