@@ -232,7 +232,7 @@
     <google-map height="500px"
                 width="100%"
                 [center]="center"
-                [options]="options" (mapClick)="onSelectPOI($event.latLng.toJSON())">
+                [options]="options" (mapClick)="onSelectPOI($event.latLng?.toJSON())">
       <map-marker *ngFor="let marker of markers; let indexOfElem = index" [position]="marker.position"
                   [icon]="marker.icon"
                   (mapClick)="onDeleteMarker(indexOfElem)"></map-marker>

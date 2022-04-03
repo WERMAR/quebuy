@@ -285,11 +285,11 @@ export class CreateOrgaComponent implements OnInit, AfterViewInit {
 
     searchBox.addListener('places_changed', () => {
       const places = searchBox.getPlaces();
-      if (places.length === 0) {
+      if (places?.length === 0) {
         return;
       }
       const bounds = new google.maps.LatLngBounds();
-      places.forEach(place => {
+      places?.forEach(place => {
         if (!place.geometry || !place.geometry.location) {
           return;
         }
