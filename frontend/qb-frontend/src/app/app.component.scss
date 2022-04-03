@@ -1,0 +1,39 @@
+.toolbar {
+  background: linear-gradient(-45deg, rgba(0, 0, 0, 0.22), rgba(255, 255, 255, 0.25));
+  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+  -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+  border-radius: 0px;
+}
+
+.logo {
+  height: 60px;
+  margin: auto 0 auto 0;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logout-button {
+  color: white;
+  transition: .2s ease-in-out;
+  box-shadow: 3px 3px 7px #323232,
+  -3px -3px 7px #808080;
+  margin: 0;
+}
+
+.logout-button:active {
+  box-shadow: inset 3px 3px 7px #2e2e2e,
+  inset -3px -3px 7px #878787;
+}
+
+.logout-icon {
+  transform: scale(0.8);
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.8px;
+}
+
+.logout-icon:active {
+  transform: scale(0.7);
+}
