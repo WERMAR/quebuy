@@ -6,6 +6,9 @@ import {TokenConverter} from "../util/converter/token-converter";
 import {CacheService} from "../services/cache.service";
 import {CacheConst} from "../services/constants/cache.const";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {ErrorHandlerService} from "../services/error-handler.service";
+import {ErrorType} from "../util/const/error-type.enum";
 
 @Component({
   selector: 'app-auth',
@@ -16,6 +19,11 @@ export class AuthComponent implements OnInit {
   public hide = true;
   private _user: User = new User();
   private readonly _form: FormGroup;
+  private _loginError: boolean = false;
+
+  get loginError(): boolean {
+    return this._loginError;
+  }
 
   get form(): FormGroup {
     return this._form;
@@ -27,7 +35,8 @@ export class AuthComponent implements OnInit {
 
   constructor(private _authService: AuthService,
               private _cacheService: CacheService,
-              private _router: Router) {
+              private _router: Router,
+              private _errorHandler: ErrorHandlerService) {
     this._form = new FormGroup({
       username: new FormControl({value: this._user.username, disabled: false}, {
         updateOn: 'change',
@@ -54,7 +63,17 @@ export class AuthComponent implements OnInit {
       this._authService.setLoggedIn(true);
       this._router.navigateByUrl('/home').then();
     }, error => {
-      this._authService.setLoggedIn(false);
+      switch (error.status) {
+        case 403:
+          this._errorHandler.forbidden(ErrorType.FORBIDDEN_LOGIN);
+          this._loginError = true;
+          this._form.controls['username'].setErrors({'incorrect':true})
+          this._form.controls['password'].setErrors({'incorrect':true})
+          break;
+        default:
+          this._errorHandler.default();
+          console.log("not identifiable");
+      }
     });
   }
 }

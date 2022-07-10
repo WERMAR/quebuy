@@ -1,17 +1,20 @@
 <div class="login">
-  <img class="logo" src="assets/logo.png">
+  <img class="logo" src="assets/logo_1.png">
   <div class="login-inputs">
     <form [formGroup]="form">
-      <mat-form-field class="input-fields" appearance="outline" >
+      <mat-form-field class="input-fields" appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput formControlName="username">
+        <mat-error></mat-error>
       </mat-form-field>
-      <mat-form-field class="input-fields" appearance="outline" >
+      <mat-form-field class="input-fields" appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        <mat-error></mat-error>
       </mat-form-field>
       <button mat-raised-button color="primary" class="login-button" (click)="onLogin()">Login</button>
       <p class="login-company" style="font-weight: bolder">QueBuy - Powered by YouMesh</p>
